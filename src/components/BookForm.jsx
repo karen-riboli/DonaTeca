@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import '/src/styles/BookForm.css';
 import { FaBook, FaBookmark, FaRegBookmark } from 'react-icons/fa';
 
@@ -18,6 +19,19 @@ const BookForm = ({
   };
 
   const isFormValid = book.title.trim() && book.author.trim();
+
+  useEffect(() => {
+    const handleEscape = (event) => {
+      if (event.key === 'Escape') {
+        goBack();
+      }
+    };
+  
+    window.addEventListener('keydown', handleEscape);
+  
+    return () =>
+      window.removeEventListener('keydown', handleEscape);
+  }, [goBack]);
 
   return (
     <form className="book-form" onSubmit={handleSubmit}>

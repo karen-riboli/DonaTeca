@@ -5,12 +5,6 @@ import '/src/styles/App.css';
 
 function App() {
   const [booksList, setBooksList] = useState([]);
-  const [book, setBook] = useState({
-    id: null,
-    title: '',
-    author: '',
-    isRead: false,
-  });
 
   useEffect(() => {
     fetch('/api/books', { method: 'GET' })
@@ -57,8 +51,6 @@ function App() {
     <>
       <h1>DonaTeca</h1>
         <NewBookForm
-          book={book}
-          setBook={setBook}
           setBooksList={setBooksList}
         />
       <ul className="books-list">

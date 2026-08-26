@@ -5,9 +5,6 @@ import '/src/styles/BookCard.css';
 
 const BookCard = ({ book, deleteBook, toggleReadStatus, setBooksList }) => {
   const [isEditable, setIsEditable] = useState(false);
-  const editBook = () => {
-    setIsEditable(true);
-  };
 
   return (
     <div className="book-card">
@@ -31,7 +28,7 @@ const BookCard = ({ book, deleteBook, toggleReadStatus, setBooksList }) => {
             </button>
           </div>
           <div className="book-actions">
-            <button onClick={editBook}>
+            <button onClick={() => setIsEditable(true)}>
               <FaPen />
             </button>
             <button onClick={deleteBook}>
