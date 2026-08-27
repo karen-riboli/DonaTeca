@@ -1,6 +1,6 @@
 import BookCard from './BookCard.jsx';
 
-const BookList = ({ books, setBooks, deleteBook, toggleReadStatus }) => {
+const BookList = ({ books, setBooks, deleteBook, toggleReadStatus, deletingBookId }) => {
     return (
       <>
         {books.length === 0 && (
@@ -17,6 +17,7 @@ const BookList = ({ books, setBooks, deleteBook, toggleReadStatus }) => {
               deleteBook={() => deleteBook(book.id)}
               toggleReadStatus={() => toggleReadStatus(book)}
               setBooks={setBooks}
+              deletingBookId={deletingBookId}
             />
           ))}
         </ul>

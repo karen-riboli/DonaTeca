@@ -4,9 +4,12 @@ import BookList from './components/BookList.jsx';
 import '/src/styles/App.css';
 
 function App() {
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [books, setBooks] = useState([]);
+
+  const [isLoading, setIsLoading] = useState(true);
+  const [loadingError, setLoadingError] = useState(null);
+
+  const [deletingBookId, setDeletingBookId] = useState(null);
 
   useEffect(() => {
     async function fetchBooks() {
@@ -21,7 +24,8 @@ function App() {
           }))
         );
       } catch (err) {
-        setError(err.message);
+        setLoadingError
+          (err.message);
       } finally {
         setIsLoading(false);
       }
@@ -29,14 +33,23 @@ function App() {
     fetchBooks();
   }, []);
 
-  const deleteBook = (id) => {
-    fetch(`/api/books/${id}`, { method: 'DELETE' }).then((res) => {
-      if (res.ok) {
-        setBooks((prevBooks) =>
-          prevBooks.filter((book) => book.id !== id)
-        );
+  const deleteBook = async (id) => {
+    try {
+      setDeletingBookId(id);
+
+      const response = await fetch(`/api/books/${id}`, { method: 'DELETE' });
+
+      if (!response.ok) {
+        throw new Error("Erro ao excluir livro");
       }
-    });
+
+      setBooks((prevBooks) =>
+        prevBooks.filter((book) => book.id !== id)
+      );
+
+    } finally {
+      setDeletingBookId(null);
+    }
   };
 
   const toggleReadStatus = (book) => {
@@ -70,14 +83,14 @@ function App() {
     );
   }
 
-  if (error) {
+  if (loadingError) {
     return (
       <>
         <h1>DonaTeca</h1>
         <NewBookForm
           setBooks={setBooks}
         />
-        <div className="error">Não foi possível localizar os livros. Erro: {error}</div>
+        <div className="loadingError">Não foi possível localizar os livros. Erro: {loadingError}</div>
       </>
     );
   }
@@ -92,7 +105,8 @@ function App() {
         books={books}
         setBooks={setBooks}
         deleteBook={deleteBook}
-        toggleReadStatus={toggleReadStatus} />
+        toggleReadStatus={toggleReadStatus}
+        deletingBookId={deletingBookId}/>
     </>
   );
 }

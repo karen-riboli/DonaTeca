@@ -3,9 +3,24 @@ import EditBookForm from './EditBookForm';
 import { FaPen, FaTrash, FaBookmark, FaRegBookmark } from 'react-icons/fa';
 import '/src/styles/BookCard.css';
 
-const BookCard = ({ book, deleteBook, toggleReadStatus, setBooks }) => {
+const BookCard = ({ book, deleteBook, toggleReadStatus, setBooks, deletingBookId }) => {
   const [isEditable, setIsEditable] = useState(false);
   const [deleteWarning, setDeleteWarning] = useState(false);
+
+  const [deleteError, setDeleteError] = useState(null);
+
+  const isDeleting = deletingBookId === book.id;
+
+  async function handleDelete() {
+    try {
+      setDeleteError(null);
+
+      await deleteBook(book.id);
+    } catch (error) {
+      setDeleteError('Não foi possível excluir o livro.');
+      console.error(error);
+    }
+  }
 
   return (
     <div className="book-card">
@@ -32,25 +47,34 @@ const BookCard = ({ book, deleteBook, toggleReadStatus, setBooks }) => {
             <button onClick={() => setIsEditable(true)}>
               <FaPen />
             </button>
-            <button onClick={()=>setDeleteWarning(true)}>
+            <button
+              onClick={() => {
+                setDeleteError(null);
+                setDeleteWarning(true)
+              }}>
               <FaTrash />
             </button>
           </div>
         </>
       )}
-        {deleteWarning && (
-          <>
+      {deleteWarning && (
+        <>
           <div className="card-overlay" />
           <div className="delete-confirmation">
             <h3>Tem certeza que deseja excluir o livro "{book.title}"?</h3>
             <p>⚠️ Esta ação não poderá ser desfeita</p>
+            {deleteError && (
+              <p className="delete-error">
+                {deleteError}
+              </p>
+            )}
             <div className="delete-confirmation-buttons">
-            <button className="cancel-button" onClick={()=>setDeleteWarning(false)}>Cancelar</button>
-            <button className="delete-button" onClick={deleteBook}>Excluir</button>
+              <button className="cancel-button" onClick={() => setDeleteWarning(false)}>Cancelar</button>
+              <button className="delete-button" onClick={handleDelete} disabled={isDeleting}>{isDeleting ? 'Excluindo...' : 'Excluir'}</button>
             </div>
           </div>
-          </>
-        )}      
+        </>
+      )}
     </div>
   );
 };
