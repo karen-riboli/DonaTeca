@@ -32,7 +32,7 @@ const BookCard = ({ book, deleteBook, toggleReadStatus, setBooksList }) => {
             <button onClick={() => setIsEditable(true)}>
               <FaPen />
             </button>
-            <button onClick={deleteBook}>
+            <button onClick={()=>setDeleteWarning(true)}>
               <FaTrash />
             </button>
           </div>
