@@ -53,6 +53,12 @@ function App() {
         <NewBookForm
           setBooksList={setBooksList}
         />
+        {booksList.length === 0 && (
+        <div className="empty-state">
+          <p>Nenhum livro cadastrado.</p>
+          <p>Clique em "Adicionar Livro" para começar.</p>
+        </div>
+      )}
       <ul className="books-list">
         {booksList.map((book) => (
           <BookCard

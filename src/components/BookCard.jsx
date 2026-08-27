@@ -5,6 +5,7 @@ import '/src/styles/BookCard.css';
 
 const BookCard = ({ book, deleteBook, toggleReadStatus, setBooksList }) => {
   const [isEditable, setIsEditable] = useState(false);
+  const [deleteWarning, setDeleteWarning] = useState(false);
 
   return (
     <div className="book-card">
@@ -37,6 +38,19 @@ const BookCard = ({ book, deleteBook, toggleReadStatus, setBooksList }) => {
           </div>
         </>
       )}
+        {deleteWarning && (
+          <>
+          <div className="card-overlay" />
+          <div className="delete-confirmation">
+            <h3>Tem certeza que deseja excluir o livro "{book.title}"?</h3>
+            <p>⚠️ Esta ação não poderá ser desfeita</p>
+            <div className="delete-confirmation-buttons">
+            <button className="cancel-button" onClick={()=>setDeleteWarning(false)}>Cancelar</button>
+            <button className="delete-button" onClick={deleteBook}>Excluir</button>
+            </div>
+          </div>
+          </>
+        )}      
     </div>
   );
 };

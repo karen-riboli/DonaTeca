@@ -14,3 +14,14 @@ h1 {
 
   color: #665b7a;
 }
+
+.empty-state {
+  text-align: center;
+  color: #8c8398;
+
+  padding: 2rem;
+}
+
+.empty-state p {
+  margin: 0.5rem;
+}
