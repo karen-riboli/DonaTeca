@@ -1,4 +1,4 @@
-import BookCard from './components/BookCard.jsx';
+import BookCard from './BookCard.jsx';
 
 const BookList = ({ books, setBooks, deleteBook, toggleReadStatus }) => {
     return (
