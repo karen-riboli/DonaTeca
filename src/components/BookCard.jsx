@@ -3,7 +3,7 @@ import EditBookForm from './EditBookForm';
 import { FaPen, FaTrash, FaBookmark, FaRegBookmark } from 'react-icons/fa';
 import '/src/styles/BookCard.css';
 
-const BookCard = ({ book, deleteBook, toggleReadStatus, setBooksList }) => {
+const BookCard = ({ book, deleteBook, toggleReadStatus, setBooks }) => {
   const [isEditable, setIsEditable] = useState(false);
   const [deleteWarning, setDeleteWarning] = useState(false);
 
@@ -13,7 +13,7 @@ const BookCard = ({ book, deleteBook, toggleReadStatus, setBooksList }) => {
         <>
           <EditBookForm
             book={book}
-            setBooksList={setBooksList}
+            setBooks={setBooks}
             setIsEditable={setIsEditable}
             goBack={() => setIsEditable(false)}
           />

@@ -2,7 +2,7 @@ import BookForm from './BookForm.jsx';
 import { useState } from 'react';
 import { FaPlus } from 'react-icons/fa';
 
-const NewBookForm = ({ setBooksList }) => {
+const NewBookForm = ({ setBooks }) => {
   const [isActive, setIsActive] = useState(false);
   const [newBook, setNewBook] = useState({
     id: null,
@@ -22,7 +22,7 @@ const NewBookForm = ({ setBooksList }) => {
     })
       .then((res) => res.json())
       .then((result) => {
-        setBooksList((prev) => [
+        setBooks((prev) => [
           ...prev,
           {
             ...result.data[0],

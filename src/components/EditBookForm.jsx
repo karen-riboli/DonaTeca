@@ -1,7 +1,7 @@
 import BookForm from './BookForm.jsx';
 import { useState } from 'react';
 
-const EditBookForm = ({ book, setBooksList, setIsEditable }) => {
+const EditBookForm = ({ book, setBooks, setIsEditable }) => {
   const [editedBook, setEditedBook] = useState(book);
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -14,7 +14,7 @@ const EditBookForm = ({ book, setBooksList, setIsEditable }) => {
     })
       .then((res) => res.json())
       .then((updatedBook) => {
-        setBooksList((prev) =>
+        setBooks((prev) =>
           prev.map((b) =>
             b.id === updatedBook[0].id
               ? {

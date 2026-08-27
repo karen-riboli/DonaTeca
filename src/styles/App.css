@@ -15,13 +15,13 @@ h1 {
   color: #665b7a;
 }
 
-.empty-state {
+.empty-state .loading .error {
   text-align: center;
   color: #8c8398;
 
   padding: 2rem;
 }
 
-.empty-state p {
+.empty-state p .loading .error {
   margin: 0.5rem;
 }
