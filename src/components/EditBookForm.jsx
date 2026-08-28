@@ -13,9 +13,6 @@ const EditBookForm = ({ book, setBooks, setIsEditable }) => {
       setSaveError(null);
       setIsSaving(true);
 
-      await new Promise((resolve) => setTimeout(resolve, 3000));
-      throw new Error('Testing save error'); 
-
       const response = await fetch(`/api/books/${editedBook.id}`, {
         method: 'PATCH',
         headers: {
