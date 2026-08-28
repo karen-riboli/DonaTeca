@@ -8,7 +8,9 @@ const BookForm = ({
   handleSubmit,
   buttonText,
   formTitle,
-  goBack
+  goBack,
+  isSaving = false,
+  saveError = null
 }) => {
   const handleChange = (event) => {
     const { name, value, type, checked } = event.target;
@@ -18,20 +20,20 @@ const BookForm = ({
     }));
   };
 
-  const isFormValid = book.title.trim() && book.author.trim();
+  const isFormValid = book.title?.trim() && book.author?.trim();
 
   useEffect(() => {
     const handleEscape = (event) => {
-      if (event.key === 'Escape') {
+      if (event.key === 'Escape' && !isSaving) {
         goBack();
       }
     };
-  
+
     window.addEventListener('keydown', handleEscape);
-  
+
     return () =>
       window.removeEventListener('keydown', handleEscape);
-  }, [goBack]);
+  }, [goBack, isSaving]);
 
   return (
     <form className="book-form" onSubmit={handleSubmit}>
@@ -47,6 +49,7 @@ const BookForm = ({
           placeholder="O Pequeno Príncipe"
           value={book.title} // Binds input value to state
           onChange={handleChange} // Updates state on keystroke
+          disabled={isSaving}
           required
         />
       </label>
@@ -58,6 +61,7 @@ const BookForm = ({
           placeholder="Antoine de Saint-Exupéry"
           value={book.author} // Binds input value to state
           onChange={handleChange} // Updates state on keystroke
+          disabled={isSaving}
           required
         />
       </label>
@@ -67,12 +71,18 @@ const BookForm = ({
           name="isRead"
           checked={book.isRead}
           onChange={handleChange}
+          disabled={isSaving}
         />
         {book.isRead ? <FaBookmark /> : <FaRegBookmark />}
         <span>{book.isRead ? 'Lido' : 'Não Lido'}</span>
       </label>
-      <button type="submit" className="button-primary" disabled={!isFormValid}>{buttonText}</button>
-      <button type="button" onClick={goBack} className="button-back">Voltar</button>
+      <button type="submit" className="button-primary" disabled={!isFormValid || isSaving}>{buttonText}</button>
+      <button type="button" onClick={goBack} className="button-back" disabled={isSaving}>Voltar</button>
+      {saveError && (
+        <p className="form-error">
+          {saveError}
+        </p>
+      )}
     </form>
   );
 };

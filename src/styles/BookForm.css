@@ -61,7 +61,7 @@
   pointer-events: none;
 }
 
-.read-checkbox:hover {
+.read-checkbox:not(:disabled):hover {
   color: #665b7a;
 }
 
@@ -71,7 +71,7 @@
   transition: transform 0.2s ease;
 }
 
-.read-checkbox:hover svg {
+.read-checkbox:not(:disabled):hover svg {
   transform: scale(1.1);
 }
 
@@ -159,7 +159,7 @@
   transition: transform 0.2s ease, background-color 0.2s ease;
 }
 
-.button-primary:hover {
+.button-primary:not(:disabled):hover {
   transform: scale(1.05);
   background: #5e5470;
 }
@@ -183,12 +183,35 @@
   transition: color 0.2s ease;
 }
 
-.button-back:hover {
+.button-back:not(:disabled):hover {
   color: #665b7a;
   text-decoration: underline;
+}
+
+.read-checkbox:has(input:disabled) {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.read-checkbox svg {
+  transition: opacity 0.2s ease, color 0.2s ease;
+}
+
+.read-checkbox:has(input:disabled) svg {
+  color: #999;
+}
+
+.button-back:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 :focus-visible {
   outline: none;
   box-shadow: 0 0 0 3px rgba(170, 59, 255, 0.25);
+}
+
+.form-error {
+  color: #b34f4f;
+  margin: 1rem 0 0;
 }

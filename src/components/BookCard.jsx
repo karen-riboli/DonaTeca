@@ -10,11 +10,11 @@ const BookCard = ({ book, deleteBook, toggleReadStatus, setBooks, deletingBookId
   const [deleteError, setDeleteError] = useState(null);
 
   const isDeleting = deletingBookId === book.id;
-
+  
   async function handleDelete() {
     try {
       setDeleteError(null);
-
+      
       await deleteBook(book.id);
     } catch (error) {
       setDeleteError('Não foi possível excluir o livro.');
@@ -63,15 +63,15 @@ const BookCard = ({ book, deleteBook, toggleReadStatus, setBooks, deletingBookId
           <div className="delete-confirmation">
             <h3>Tem certeza que deseja excluir o livro "{book.title}"?</h3>
             <p>⚠️ Esta ação não poderá ser desfeita</p>
+            <div className="delete-confirmation-buttons">
+              <button className="cancel-button" onClick={() => setDeleteWarning(false)}>Cancelar</button>
+              <button className="delete-button" onClick={handleDelete} disabled={isDeleting}>{isDeleting ? 'Excluindo...' : 'Excluir'}</button>
+            </div>
             {deleteError && (
               <p className="delete-error">
                 {deleteError}
               </p>
             )}
-            <div className="delete-confirmation-buttons">
-              <button className="cancel-button" onClick={() => setDeleteWarning(false)}>Cancelar</button>
-              <button className="delete-button" onClick={handleDelete} disabled={isDeleting}>{isDeleting ? 'Excluindo...' : 'Excluir'}</button>
-            </div>
           </div>
         </>
       )}

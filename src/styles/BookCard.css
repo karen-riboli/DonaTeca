@@ -162,7 +162,7 @@
   transition: background-color 0.2s ease, transform 0.2s ease;
 }
 
-.delete-confirmation button:hover {
+.delete-confirmation button:not(:disabled):hover {
   transform: translateY(-1px);
 }
 
@@ -180,7 +180,7 @@
   color: white;
 }
 
-.delete-button:hover {
+.delete-button:not(:disabled):hover {
   background: #b34f4f;
 }
 
@@ -195,6 +195,17 @@
 .delete-button:focus-visible {
 outline: none;
 box-shadow: 0 0 0 3px rgba(170, 59, 255, 0.25);
+}
+
+.delete-error {
+  color: #b34f4f;
+  margin: 1rem 0 0;
+}
+
+.delete-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
 }
 
 @keyframes fadeIn {
