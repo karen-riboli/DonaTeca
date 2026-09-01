@@ -12,35 +12,48 @@ const NewBookForm = ({ setBooks }) => {
     isRead: false,
   });
 
-  const handleSubmit = (event) => {
+  const [isAdding, setIsAdding] = useState(false);
+  const [saveError, setSaveError] = useState(null);
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    fetch(`${API_URL}/api/books`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(newBook),
-    })
-      .then((res) => res.json())
-      .then((result) => {
-        setBooks((prev) => [
-          ...prev,
-          {
-            ...result.data[0],
-            isRead: result.data[0].is_read,
-          },
-        ]);
-        setNewBook({
-          id: null,
-          title: '',
-          author: '',
-          isRead: false,
-        });
-        setIsActive(false);
-      })
-      .catch((err) => {
-        console.error('Failed to create book:', err);
+    try {
+      setSaveError(null);
+      setIsAdding(true);
+      
+      const response = await fetch(`${API_URL}/api/books`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newBook),
       });
+
+      if (!response.ok) {
+        throw new Error('Erro ao adicionar livro');
+      }
+
+      const book = await response.json();
+      setBooks((prev) => [
+        ...prev,
+        {
+          ...book.data[0],
+          isRead: book.data[0].is_read,
+        },
+      ]);
+      setNewBook({
+        id: null,
+        title: '',
+        author: '',
+        isRead: false,
+      });
+      setIsActive(false);
+    } catch (error) {
+      setSaveError('Não foi possível salvar as alterações.');
+      console.error(error);      
+    } finally {
+      setIsAdding(false);
+    }
   };
 
   if (isActive) {
@@ -50,9 +63,11 @@ const NewBookForm = ({ setBooks }) => {
           book={newBook}
           setBook={setNewBook}
           handleSubmit={handleSubmit}
-          buttonText="Adicionar Livro"
+          buttonText={isAdding ? 'Adicionando livro' : 'Adicionar livro'}
           formTitle="Adicionar Livro"
           goBack={() => setIsActive(false)}
+          isSaving={isAdding}
+          saveError={saveError}
         />
       </div>
     );
