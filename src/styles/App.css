@@ -6,6 +6,30 @@
   list-style: none;
 }
 
+.app-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.app-header h1 {
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  margin-top: 0.75rem;
+  color: #665b7a;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.demo-notice {
+  margin-top: 0.75rem;
+  color: #7a748f;
+  font-size: 0.875rem;
+  line-height: 1.4;
+  max-width: 550px;
+}
+
 h1 {
   margin: 2rem 0;
   font-size: 2.5rem;

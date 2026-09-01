@@ -72,42 +72,32 @@ function App() {
     });
   };
 
-  if (isLoading) {
-    return (
-      <>
-        <h1>DonaTeca</h1>
-        <NewBookForm
-          setBooks={setBooks}
-        />
-        <div className="loading">Carregando livros...</div>
-      </>
-    );
-  }
-
-  if (loadingError) {
-    return (
-      <>
-        <h1>DonaTeca</h1>
-        <NewBookForm
-          setBooks={setBooks}
-        />
-        <div className="loadingError">Não foi possível localizar os livros. Erro: {loadingError}</div>
-      </>
-    );
-  }
-
   return (
     <>
-      <h1>DonaTeca</h1>
+      <header className="app-header">
+        <h1>DonaTeca</h1>
+        <p className="subtitle">
+          Gerencie sua coleção de livros
+        </p>
+        <p className="demo-notice">
+          Projeto de demonstração para portfólio. Os livros cadastrados ficam visíveis para todos os visitantes.
+        </p>
+      </header>
       <NewBookForm
         setBooks={setBooks}
       />
-      <BookList
-        books={books}
-        setBooks={setBooks}
-        deleteBook={deleteBook}
-        toggleReadStatus={toggleReadStatus}
-        deletingBookId={deletingBookId}/>
+      {isLoading ? (
+        <div className="loading">Carregando livros...</div>
+      ) : loadingError ? (
+        <div className="loadingError">Não foi possível localizar os livros. Erro: {loadingError}</div>
+      ) : (
+        <BookList
+          books={books}
+          setBooks={setBooks}
+          deleteBook={deleteBook}
+          toggleReadStatus={toggleReadStatus}
+          deletingBookId={deletingBookId} />
+      )}
     </>
   );
 }
