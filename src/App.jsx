@@ -1,4 +1,5 @@
 import NewBookForm from './components/NewBookForm.jsx';
+import SearchBar from './components/SearchBar.jsx';
 import { useEffect, useState } from 'react';
 import BookList from './components/BookList.jsx';
 import { API_URL } from './api';
@@ -11,6 +12,8 @@ function App() {
   const [loadingError, setLoadingError] = useState(null);
 
   const [deletingBookId, setDeletingBookId] = useState(null);
+
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     async function fetchBooks() {
@@ -72,6 +75,12 @@ function App() {
     });
   };
 
+  const search = searchTerm.toLowerCase();
+  const filteredBooks = books.filter((book) =>
+    book.title.toLowerCase().includes(search) ||
+    book.author.toLowerCase().includes(search)
+  );
+
   return (
     <>
       <header className="app-header">
@@ -86,13 +95,28 @@ function App() {
       <NewBookForm
         setBooks={setBooks}
       />
+      {books.length > 0 &&(
+        <SearchBar 
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
+        />
+      )}
       {isLoading ? (
         <div className="loading">Carregando livros...</div>
       ) : loadingError ? (
         <div className="loadingError">Não foi possível localizar os livros. Erro: {loadingError}</div>
+      ) : books.length === 0 ? (
+        <div className="empty-state">
+        <p>Nenhum livro cadastrado.</p>
+        <p>Clique em "Adicionar Livro" para começar.</p>
+      </div>        
+      ) : filteredBooks.length === 0 ? (
+        <div className="empty-state">
+        <p>Nenhum resultado para "{searchTerm}"</p>
+      </div>          
       ) : (
         <BookList
-          books={books}
+          books={filteredBooks}
           setBooks={setBooks}
           deleteBook={deleteBook}
           toggleReadStatus={toggleReadStatus}
