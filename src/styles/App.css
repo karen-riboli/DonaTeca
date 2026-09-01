@@ -23,11 +23,10 @@
 }
 
 .demo-notice {
-  margin-top: 0.75rem;
+  margin-top: 1rem;
   color: #7a748f;
   font-size: 0.875rem;
   line-height: 1.4;
-  max-width: 550px;
 }
 
 h1 {
