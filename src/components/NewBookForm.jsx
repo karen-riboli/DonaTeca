@@ -13,7 +13,7 @@ const NewBookForm = ({ setBooks }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    fetch('/api/books', {
+    fetch(`${API_URL}/api/books`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

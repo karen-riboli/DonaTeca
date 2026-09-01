@@ -15,7 +15,7 @@ function App() {
     async function fetchBooks() {
       try {
         setIsLoading(true);
-        const response = await fetch('/api/books', { method: 'GET' });
+        const response = await fetch(`${API_URL}/api/books`, { method: 'GET' });
         const data = await response.json();
         setBooks(
           data.books.map((book) => ({
@@ -37,7 +37,7 @@ function App() {
     try {
       setDeletingBookId(id);
 
-      const response = await fetch(`/api/books/${id}`, { method: 'DELETE' });
+      const response = await fetch(`${API_URL}/api/books/${id}`, { method: 'DELETE' });
 
       if (!response.ok) {
         throw new Error("Erro ao excluir livro");
@@ -54,7 +54,7 @@ function App() {
 
   const toggleReadStatus = (book) => {
     const newValue = !book.isRead;
-    fetch(`/api/books/${book.id}`, {
+    fetch(`${API_URL}/api/books/${book.id}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',

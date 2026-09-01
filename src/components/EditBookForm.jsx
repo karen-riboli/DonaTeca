@@ -13,7 +13,7 @@ const EditBookForm = ({ book, setBooks, setIsEditable }) => {
       setSaveError(null);
       setIsSaving(true);
 
-      const response = await fetch(`/api/books/${editedBook.id}`, {
+      const response = await fetch(`${API_URL}/api/books/${editedBook.id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
