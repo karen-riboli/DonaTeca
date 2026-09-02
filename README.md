@@ -62,11 +62,9 @@ Deploy
 
 A aplicação utiliza uma arquitetura cliente-servidor:
 
-React
+React (Vite)
    │
-   │ Requisições HTTP
    ▼
-API REST
 Node.js + Express
    │
    ▼

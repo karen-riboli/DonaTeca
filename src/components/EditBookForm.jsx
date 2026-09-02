@@ -23,16 +23,18 @@ const EditBookForm = ({ book, setBooks, setIsEditable }) => {
       });
 
       if (!response.ok) {
-        throw new Error('Erro ao editar livro');
+        const errorData = await response.json();
+        throw new Error(errorData.error);
       }
 
-      const updatedBook = await response.json();
+      const data = await response.json();
+      const updatedBook = data.books[0];
       setBooks((prev) =>
           prev.map((b) =>
-            b.id === updatedBook[0].id
+            b.id === updatedBook.id
               ? {
-                  ...updatedBook[0],
-                  isRead: updatedBook[0].is_read,
+                  ...updatedBook,
+                  isRead: updatedBook.is_read,
                 }
               : b
           )

@@ -30,15 +30,16 @@ const NewBookForm = ({ setBooks }) => {
       });
 
       if (!response.ok) {
-        throw new Error('Erro ao adicionar livro');
+        const errorData = await response.json();
+        throw new Error(errorData.error);
       }
 
       const book = await response.json();
       setBooks((prev) => [
         ...prev,
         {
-          ...book.data[0],
-          isRead: book.data[0].is_read,
+          ...book.books[0],
+          isRead: book.books[0].is_read,
         },
       ]);
       setNewBook({

@@ -23,7 +23,8 @@ function App() {
         const response = await fetch(`${API_URL}/api/books`, { method: 'GET' });
 
         if (!response.ok) {
-          throw new Error('Não foi possível carregar os livros.');
+          const errorData = await response.json();
+          throw new Error(errorData.error);
         }
 
         const data = await response.json();
@@ -50,7 +51,8 @@ function App() {
       const response = await fetch(`${API_URL}/api/books/${id}`, { method: 'DELETE' });
 
       if (!response.ok) {
-        throw new Error("Erro ao excluir livro");
+        const errorData = await response.json();
+        throw new Error(errorData.error);
       }
 
       setBooks((prevBooks) =>
@@ -76,7 +78,8 @@ function App() {
     });
 
     if (!response.ok) {
-      throw new Error('Erro ao atualizar status do livro.');
+      const errorData = await response.json();
+      throw new Error(errorData.error);
     }
 
     setBooks((prevBooks) =>
