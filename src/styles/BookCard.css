@@ -197,7 +197,7 @@ outline: none;
 box-shadow: 0 0 0 3px rgba(170, 59, 255, 0.25);
 }
 
-.delete-error {
+.delete-error, p.status-update-error {
   color: #b34f4f;
   margin: 1rem 0 0;
 }

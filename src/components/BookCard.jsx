@@ -8,16 +8,26 @@ const BookCard = ({ book, deleteBook, toggleReadStatus, setBooks, deletingBookId
   const [deleteWarning, setDeleteWarning] = useState(false);
 
   const [deleteError, setDeleteError] = useState(null);
+  const [statusUpdateError, setStatusUpdateError] = useState(null);
 
   const isDeleting = deletingBookId === book.id;
   
-  async function handleDelete() {
+  const handleDelete = async () => {
     try {
       setDeleteError(null);
-      
       await deleteBook(book.id);
     } catch (error) {
       setDeleteError('Não foi possível excluir o livro.');
+      console.error(error);
+    }
+  }
+
+  const handleUpdate = async () => {
+    try {
+      setStatusUpdateError(null);
+      await toggleReadStatus();
+    } catch (error) {
+      setStatusUpdateError(error.message);
       console.error(error);
     }
   }
@@ -38,10 +48,11 @@ const BookCard = ({ book, deleteBook, toggleReadStatus, setBooks, deletingBookId
           <div className="book-info">
             <h3>{book.title}</h3>
             <p>{book.author}</p>
-            <button className="read-status" onClick={toggleReadStatus}>
+            <button className="read-status" onClick={handleUpdate}>
               {book.isRead ? <FaBookmark /> : <FaRegBookmark />}
               <span>{book.isRead ? 'Lido' : 'Não lido'}</span>
             </button>
+            {statusUpdateError && <p className="status-update-error">{statusUpdateError}</p>}
           </div>
           <div className="book-actions">
             <button onClick={() => setIsEditable(true)}>

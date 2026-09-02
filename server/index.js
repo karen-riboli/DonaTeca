@@ -61,17 +61,22 @@ app.delete('/api/books/:id', async (req, res) => {
 
 app.patch('/api/books/:id', async (req, res) => {
   const { id } = req.params;
-  const { title } = req.body;
-  const { author } = req.body;
-  const { isRead } = req.body;
+  const { title, author, isRead } = req.body;
+
+  const updates = {};
+  if (title !== undefined) {
+    updates.title = title;
+  }
+  if (author !== undefined) {
+    updates.author = author;
+  }
+  if (isRead !== undefined) {
+    updates.is_read = isRead;
+  }
 
   const { data, error } = await supabase
     .from('books')
-    .update({
-      title,
-      author,
-      is_read: isRead,
-    })
+    .update(updates)
     .eq('id', id)
     .select();
 

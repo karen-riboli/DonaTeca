@@ -16,10 +16,16 @@ function App() {
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
-    async function fetchBooks() {
+    const fetchBooks = async () => {
       try {
+        setLoadingError(null);
         setIsLoading(true);
         const response = await fetch(`${API_URL}/api/books`, { method: 'GET' });
+
+        if (!response.ok) {
+          throw new Error('Não foi possível carregar os livros.');
+        }
+
         const data = await response.json();
         setBooks(
           data.books.map((book) => ({
@@ -27,9 +33,9 @@ function App() {
             isRead: book.is_read,
           }))
         );
-      } catch (err) {
-        setLoadingError
-          (err.message);
+      } catch (error) {
+        setLoadingError(error.message);
+        console.error(error);
       } finally {
         setIsLoading(false);
       }
@@ -56,9 +62,10 @@ function App() {
     }
   };
 
-  const toggleReadStatus = (book) => {
+  const toggleReadStatus = async (book) => {
     const newValue = !book.isRead;
-    fetch(`${API_URL}/api/books/${book.id}`, {
+
+    const response = await fetch(`${API_URL}/api/books/${book.id}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
@@ -66,13 +73,15 @@ function App() {
       body: JSON.stringify({
         isRead: newValue,
       }),
-    }).then((res) => {
-      if (res.ok) {
-        setBooks((prev) =>
-          prev.map((b) => (b.id === book.id ? { ...b, isRead: newValue } : b))
-        );
-      }
     });
+
+    if (!response.ok) {
+      throw new Error('Erro ao atualizar status do livro.');
+    }
+
+    setBooks((prevBooks) =>
+      prevBooks.map((currentBook) => (currentBook.id === book.id ? { ...currentBook, isRead: newValue } : currentBook))
+    );
   };
 
   const search = searchTerm.toLowerCase();
@@ -95,8 +104,8 @@ function App() {
       <NewBookForm
         setBooks={setBooks}
       />
-      {books.length > 0 &&(
-        <SearchBar 
+      {books.length > 0 && (
+        <SearchBar
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
         />
@@ -107,13 +116,13 @@ function App() {
         <div className="loadingError">Não foi possível localizar os livros. Erro: {loadingError}</div>
       ) : books.length === 0 ? (
         <div className="empty-state">
-        <p>Nenhum livro cadastrado.</p>
-        <p>Clique em "Adicionar Livro" para começar.</p>
-      </div>        
+          <p>Nenhum livro cadastrado.</p>
+          <p>Clique em "Adicionar Livro" para começar.</p>
+        </div>
       ) : filteredBooks.length === 0 ? (
         <div className="empty-state">
-        <p>Nenhum resultado para "{searchTerm}"</p>
-      </div>          
+          <p>Nenhum resultado para "{searchTerm}"</p>
+        </div>
       ) : (
         <BookList
           books={filteredBooks}
