@@ -33,6 +33,13 @@ app.get('/api/books', async (req, res) => {
 
 app.post('/api/books', async (req, res) => {
   const { title, author, isRead } = req.body;
+ 
+  if (!title?.trim() || !author?.trim()) {
+    return res.status(400).json({
+      error: 'Título e autor  são obrigatórios.'
+    });
+  }
+
   const { data, error } = await supabase
     .from('books')
     .insert([{ title, author, is_read: isRead }])
@@ -43,17 +50,25 @@ app.post('/api/books', async (req, res) => {
     });
   }
 
-  res.status(201).json({ data });
+  res.status(201).json({
+    books: data,
+  });
 });
 
 app.delete('/api/books/:id', async (req, res) => {
   const { id } = req.params;
-  const { error } = await supabase.from('books').delete().eq('id', id).select();
+  const { data, error } = await supabase.from('books').delete().eq('id', id).select();
 
   if (error) {
     return res.status(500).json({
       error: error.message,
     });
+  }
+
+  if (data.length === 0) {
+    return res.status(404).json({
+      error: 'Livro não encontrado.',
+    })
   }
 
   res.sendStatus(204);
@@ -86,5 +101,13 @@ app.patch('/api/books/:id', async (req, res) => {
     });
   }
 
-  res.status(200).json(data);
+  if (data.length === 0) {
+    return res.status(404).json({
+      error: 'Livro não encontrado.',
+    })
+  }
+
+  res.status(200).json({
+    books: data,
+  });
 });

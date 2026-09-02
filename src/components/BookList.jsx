@@ -1,6 +1,6 @@
 import BookCard from './BookCard.jsx';
 
-const BookList = ({ books, setBooks, deleteBook, toggleReadStatus, statusUpdateError, deletingBookId }) => {
+const BookList = ({ books, setBooks, deleteBook, toggleReadStatus, deletingBookId }) => {
     return (
       <>
         <ul className="books-list">

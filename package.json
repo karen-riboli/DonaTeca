@@ -4,9 +4,9 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "concurrently \"vite\" \"nodemon server/index.js\"",
+    "client": "vite",
     "server": "nodemon server/index.js",
-    "fullstack": "concurrently \"npm run dev\" \"npm run server\"",
+    "dev": "concurrently \"npm run client\" \"npm run server\"",
     "build": "vite build",
     "lint": "oxlint",
     "preview": "vite preview"

@@ -1,18 +1,35 @@
 # 📚 DonaTeca
 
-Uma aplicação web para gerenciamento de uma biblioteca pessoal, permitindo cadastrar, visualizar, editar e remover livros.
+Uma aplicação Full Stack para gerenciamento de uma coleção de livros.
 
-O DonaTeca foi desenvolvido como um projeto de portfólio com o objetivo de praticar conceitos fundamentais de desenvolvimento Full Stack, incluindo a criação de uma interface com React, comunicação com uma API, operações CRUD e persistência de dados.
+O DonaTeca permite cadastrar, visualizar, editar, excluir e pesquisar livros, além de acompanhar o status de leitura de cada item da coleção.
+
+O projeto foi desenvolvido como parte da minha jornada de aprendizado em desenvolvimento web, com o objetivo de praticar conceitos fundamentais de aplicações Full Stack, incluindo React, criação e consumo de APIs, operações CRUD e persistência de dados.
+
+🚀 Acesse o projeto
+
+🌐 Aplicação: https://dona-teca.vercel.app
+
+🔗 Repositório: https://github.com/karen-riboli/DonaTeca
+
+«⚠️ Este é um projeto de demonstração para portfólio. Os livros cadastrados ficam visíveis para todos os visitantes.»
+
+---
 
 ✨ Funcionalidades
 
-- 📖 Visualização dos livros cadastrados
+- 📚 Visualização dos livros cadastrados
 - ➕ Cadastro de novos livros
 - ✏️ Edição das informações de um livro
-- 🗑️ Exclusão de livros
-- 🔄 Atualização dinâmica da lista de livros
-- ⚠️ Tratamento de erros durante as operações da aplicação
+- 🗑️ Exclusão de livros com confirmação
+- 🔖 Atualização do status de leitura
+- 🔍 Busca por título ou autor
+- 🔄 Atualização dinâmica da interface
+- ⏳ Feedback durante operações assíncronas
+- ⚠️ Tratamento de erros durante as operações
 - 💾 Persistência dos dados em banco de dados
+
+---
 
 🛠️ Tecnologias utilizadas
 
@@ -32,19 +49,58 @@ Backend
 
 Banco de dados
 
-- SQLite
+- Supabase
 
-🏗️ Estrutura do projeto
+Deploy
+
+- Vercel — Frontend
+- Render — Backend
+
+---
+
+🏗️ Arquitetura
+
+A aplicação utiliza uma arquitetura cliente-servidor:
+
+React
+   │
+   │ Requisições HTTP
+   ▼
+API REST
+Node.js + Express
+   │
+   ▼
+Supabase
+
+O frontend é responsável pela interface e interação com o usuário, enquanto o backend gerencia as operações da API e a comunicação com o banco de dados.
+
+---
+
+📂 Estrutura do projeto
 
 DonaTeca
 │
 ├── server
 │   ├── database
+│   │   └── supabase.js
 │   └── index.js
 │
 ├── src
 │   ├── components
+│   │   ├── BookCard.jsx
+│   │   ├── BookForm.jsx
+│   │   ├── BookList.jsx
+│   │   ├── EditBookForm.jsx
+│   │   ├── NewBookForm.jsx
+│   │   └── SearchBar.jsx
+│   │
 │   ├── styles
+│   │   ├── App.css
+│   │   ├── BookCard.css
+│   │   ├── BookForm.css
+│   │   ├── SearchBar.css
+│   │   └── index.css
+│   │
 │   ├── api.js
 │   ├── App.jsx
 │   └── main.jsx
@@ -53,7 +109,9 @@ DonaTeca
 ├── package.json
 └── vite.config.js
 
-🚀 Como executar o projeto
+---
+
+⚙️ Como executar o projeto localmente
 
 Pré-requisitos
 
@@ -76,48 +134,59 @@ npm install
 
 4. Configure as variáveis de ambiente
 
-Crie um arquivo ".env" utilizando o arquivo ".env.example" como referência.
+Crie um arquivo ".env" utilizando o ".env.example" como referência:
 
-5. Inicie o backend
+SUPABASE_URL=
+SUPABASE_KEY=
+VITE_API_URL=
 
-Execute o servidor conforme a configuração definida no projeto.
+Preencha as variáveis com as informações do seu ambiente.
 
-6. Inicie o frontend
+5. Execute o projeto
 
 npm run dev
 
-Após iniciar a aplicação, o Vite exibirá no terminal o endereço para acessar o projeto no navegador.
+A aplicação será iniciada localmente.
 
-🎯 Objetivo do projeto
+---
 
-O DonaTeca foi desenvolvido como parte da minha jornada de aprendizado em desenvolvimento web.
+🔌 API
 
-Durante a construção do projeto, pratiquei conceitos como:
+A API possui os seguintes endpoints:
+
+Método| Endpoint| Descrição
+GET| "/api/books"| Retorna todos os livros
+POST| "/api/books"| Cadastra um novo livro
+PATCH| "/api/books/:id"| Atualiza um livro
+DELETE| "/api/books/:id"| Remove um livro
+
+---
+
+🎯 Conceitos praticados
+
+Durante o desenvolvimento do DonaTeca, pratiquei:
 
 - Componentização com React
-- Gerenciamento de estado
+- Reutilização de componentes
+- Gerenciamento de estado com Hooks
 - Comunicação entre frontend e backend
-- Consumo de API
+- Consumo de API REST
 - Operações CRUD
-- Manipulação de requisições HTTP
+- Requisições HTTP
+- Estados de carregamento
 - Tratamento de erros
+- Manipulação de formulários
 - Persistência de dados
-- Organização de um projeto Full Stack
+- Variáveis de ambiente
+- Deploy de aplicações
+
+---
 
 🔮 Possíveis melhorias futuras
 
-Algumas funcionalidades que poderiam ser adicionadas em versões futuras:
+Algumas funcionalidades que poderiam ser adicionadas futuramente:
 
-- 🔍 Busca de livros
-- 🏷️ Filtros por categoria ou autor
+- 🏷️ Categorias ou gêneros literários
 - ⭐ Sistema de avaliação
-- 📚 Organização por status de leitura
-- 👤 Autenticação de usuários
-- 🧪 Testes automatizados
-- 🌐 Deploy da aplicação
-
-👩‍💻 Autora
-
-Desenvolvido por Karen Riboli.
-
-🔗 GitHub: https://github.com/karen-riboli
+- 📊 Filtros por status de leitura
+- 📅 Data de início e conclusão da leitura
